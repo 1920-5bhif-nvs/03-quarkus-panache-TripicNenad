@@ -1,6 +1,6 @@
 = Übung 03 - Quarkus-Panache - Nenad Tripi&#x0107;
 :toc:
-:toc-title: Inhaltsverzeichnis
+:toc-title: Contents
 :toclevels: 3
 
 ifdef::env-github[]
@@ -38,14 +38,14 @@ endif::[]
 </dependency>
 ....
 
-==== Datenbank
+==== Database
 
 * Creating/Starting of the Postgres database:
 ....
 docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=passme -d postgres
 ....
 
-* Für die Persistierung das link:quarkus-panache-supermarket\src\main\resources\META-INF\microprofile-config.properties[Konfigurationsfile] editieren:
+* Editing the  link:quarkus-panache-vehicleShop\src\main\resources\META-INF\microprofile-config.properties[Configurationsfile] in order to persist entities:
 ....
 # datasource
 #                                       docker-IP-Adresse:Port/postgres
@@ -69,7 +69,7 @@ image::images/Database_Connection_02.jpg[]
 === Implementiation of the microproject
 
 ==== InitBean
-Implementierung der link:quarkus-panache-vehicleShop\src\main\java\at\htl\vehicleShop\business\InitBean.java[InitBean.java]
+Implementation of link:quarkus-panache-vehicleShop\src\main\java\at\htl\vehicleShop\business\InitBean.java[InitBean.java]
 
 TIP: The EntityManager is not necessary anymore. <PanacheEntity-Object>.persist();
 ....
