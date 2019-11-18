@@ -24,35 +24,38 @@ public class InitBean {
 
 
         System.err.println("------ROADSTERS Erstellen und Persistieren------");
-        for (int i = 1; i <6 ; i++) {
-            em.persist(new Roadster("BMW","Z"+i,i*120,250,2000));
+        for (int i = 1; i < 6; i++) {
+            Roadster roadster = new Roadster("BMW", "Z" + i, i * 120, 250, 2000);
+            roadster.persist();
         }
 
         System.err.println("------SEDANS Erstellen und Persistieren------");
         for (int i = 120; i < 830; i += 100) {
-            em.persist(new Sedan("BMW", i + "D",5,i));
+            Sedan sedan = new Sedan("BMW", i + "D", 5, i);
+            sedan.persist();
         }
 
         System.err.println("------PICKUPS Erstellen und Persistieren------");
         for (int i = 1; i < 8; i++) {
-            em.persist(new PickUp("FORD", "Raptor",i*500,5000));
+            PickUp pickUp = new PickUp("FORD", "Raptor", i * 500, 5000);
+            pickUp.persist();
         }
 
 
         //Alle Sedans ausgeben
         System.err.println("------Print SEDANS------");
         PanacheQuery<Sedan> sedanQuery = Sedan.findAll();
-        sedanQuery.list().forEach(sedan -> System.err.println(sedan.toString()));
+        sedanQuery.list().forEach(s -> System.err.println(s.toString()));
 
         //Alle Roadsters ausgeben
         System.err.println("------Print ROADSTERS------");
         PanacheQuery<Roadster> roadsterQuery = Roadster.findAll();
-        roadsterQuery.list().forEach(roadster -> System.err.println(roadster.toString()));
+        roadsterQuery.list().forEach(r -> System.err.println(r.toString()));
 
         //Alle PICKUPS ausgeben
         System.err.println("------Print PICKUPS------");
         PanacheQuery<PickUp> pickUpQuery = PickUp.findAll();
-        pickUpQuery.list().forEach(pickUp -> System.err.println(pickUp.toString()));
+        pickUpQuery.list().forEach(p -> System.err.println(p.toString()));
 
     }
 

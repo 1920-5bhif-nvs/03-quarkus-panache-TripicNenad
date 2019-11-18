@@ -4,13 +4,12 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
 
-//@Entity
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 @NamedQuery(name = "Vehicle.findAll",query = "select v from Vehicle v")
 public abstract class Vehicle extends PanacheEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
     public String manufacturer;
     public String modelName;
 

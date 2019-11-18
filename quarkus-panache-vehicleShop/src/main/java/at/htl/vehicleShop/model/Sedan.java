@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name = "Sedan.findAll",query = "select s from Sedan s")
+@NamedQuery(name = "Sedan.findAll",query = "SELECT s FROM Sedan s")
 public class Sedan extends Vehicle {
 
     public int maxNumOfPassengers;
