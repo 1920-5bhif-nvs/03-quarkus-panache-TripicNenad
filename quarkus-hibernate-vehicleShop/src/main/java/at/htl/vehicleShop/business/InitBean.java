@@ -3,6 +3,7 @@ package at.htl.vehicleShop.business;
 import at.htl.vehicleShop.model.PickUp;
 import at.htl.vehicleShop.model.Roadster;
 import at.htl.vehicleShop.model.Sedan;
+import at.htl.vehicleShop.model.Vehicle;
 import io.quarkus.runtime.StartupEvent;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,7 +41,7 @@ public class InitBean {
         }
 
 
-        //Alle Sedans ausgeben
+        /*//Alle Sedans ausgeben
         System.err.println("------Print SEDANS------");
         TypedQuery<Sedan> sedanQuery =
                 em.createNamedQuery("Sedan.findAll", Sedan.class);
@@ -59,7 +60,14 @@ public class InitBean {
         TypedQuery<PickUp> pickupQuery =
                 em.createNamedQuery("PickUp.findAll", PickUp.class);
         List<PickUp> pickupQueryResultList = pickupQuery.getResultList();
-        pickupQueryResultList.forEach(pickUp -> System.err.println(pickUp.toString()));
+        pickupQueryResultList.forEach(pickUp -> System.err.println(pickUp.toString()));*/
+
+        //Alle Vehicle ausgeben
+        System.err.println("------Print VEHICLES------");
+        TypedQuery<Vehicle> vehicleQuery =
+                em.createNamedQuery("Vehicle.findAll", Vehicle.class);
+        List<Vehicle> vehicleQueryResultList = vehicleQuery.getResultList();
+        vehicleQueryResultList.forEach(vehicle -> System.err.println(vehicle.toString()));
 
 
     }
