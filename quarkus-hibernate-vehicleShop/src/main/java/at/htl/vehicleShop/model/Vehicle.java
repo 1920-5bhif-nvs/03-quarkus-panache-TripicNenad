@@ -3,7 +3,9 @@ package at.htl.vehicleShop.model;
 import javax.persistence.*;
 
 @Entity
-@NamedQuery(name = "Vehicle.findAll",query = "select v from Vehicle v")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
+@NamedQuery(name = "Vehicle.findAll", query = "select v from Vehicle v")
 public abstract class Vehicle {
 
     @Id
@@ -20,6 +22,7 @@ public abstract class Vehicle {
         this.manufacturer = manufacturer;
         this.modelName = modelName;
     }
+
     //endregion
     //region Getter and Setter
     public Long getId() {
@@ -42,5 +45,10 @@ public abstract class Vehicle {
         this.modelName = modelName;
     }
     //endregion
+
+    @Override
+    public String toString() {
+        return manufacturer + " " + modelName;
+    }
 
 }

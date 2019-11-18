@@ -48,4 +48,9 @@ public class Roadster extends Vehicle {
         this.weight = weight;
     }
     //endregion
+
+    @Override
+    public String toString() {
+        return super.toString() + ", max. Geschwind.:" + top_speed + ", PS:" + horsepower + ", Leergewicht:" + weight;
+    }
 }

@@ -37,4 +37,9 @@ public class PickUp extends Vehicle {
         this.maxTraction = maxTraction;
     }
     //endregion
+
+    @Override
+    public String toString() {
+        return super.toString() + ", max. Ladegut:" + maxLoad + ", Zugkraft:" + maxTraction;
+    }
 }
