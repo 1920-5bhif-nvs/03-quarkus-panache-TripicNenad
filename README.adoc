@@ -66,6 +66,9 @@ image::images/Database_Connection_01.jpg[]
 
 image::images/Database_Connection_02.jpg[]
 
+image::images/Database_Connection_03.jpg[]
+
+
 === Implementiation of the microproject
 
 ==== InitBean
@@ -82,12 +85,12 @@ TIP: Source: https://quarkus.io/guides/hibernate-orm-panache
 
 ===== Example PanacheEntity "Vehicle":
 ....
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 @NamedQuery(name = "Vehicle.findAll",query = "select v from Vehicle v")
 public abstract class Vehicle extends PanacheEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    
     public String manufacturer;
     public String modelName;
 
@@ -110,6 +113,8 @@ public abstract class Vehicle extends PanacheEntity {
 ....
 
 IMPORTANT: When using Panache you shall not use Getter and Setters instead make the fields public. If you want to manipulate the data when using the Getter (e.g. .toUpperCase) the use properties.
+
+IMPORTANT: When using Panache you do not have to make yourself the Id property. Panache automatically implements this for you.
 
 ===== Inheritance with Panache
 
@@ -140,6 +145,6 @@ IMPORTANT: According to this link:https://stackoverflow.com/a/23083900[StackOver
 %mvn% compile quarkus:dev
 ....
 
-//==== CLD and ERD of the Panache-project
-// image::quarkus-panache-supermarket/Klassendiagramm.png[]
-//image::quarkus-panache-supermarket/ERD.png[]
+==== CLD and ERD of the Panache-project
+image::images/CLD.png[ERD]
+image::images/ERD.png[ERD]
