@@ -1,4 +1,4 @@
-= Übung 03 - Quarkus-Panache/Hibernate - Nenad Tripi&#x0107;
+= Homework 03 - Quarkus-Panache/Hibernate - Nenad Tripi&#x0107;
 :toc:
 :toc-title: Table of contents
 :toclevels: 3
@@ -295,8 +295,61 @@ The projects I made are rather small and not really much to process or anything.
 * Easier to learn
 * When you have troubles you can not really look up on the internet because it is not commonly used
 
+== 04. User stories - CRUD Operations
+TIP: Make sure you add following dependency to be able to use @Produces(MediaType.APPLICATION_JSON). Check this before testing otherwise it will not work probably.
 
-== 04. Testing the database
+....
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jsonb</artifactId>
+    </dependency>
+....
+
+=== UC_001 Get all vehicles
+As an user I want to see all of the persisted vehicles.
+
+Correspoding curl statement would be:
+....
+curl -H "Accept: application/json" localhost:8080/api/vehicle
+....
+
+Or in the browser simply:
+....
+localhost:8080/api/vehicle
+....
+
+=== UC_002 Get vehicle by ID
+As an user I want to get a specific persisted vehicle via its ID.
+
+WARNING: Make sure the ID really exists!
+
+Correspoding curl statement would be:
+....
+curl -H "Accept: application/json" localhost:8080/api/vehicle/2
+....
+
+Or in the browser simply:
+....
+localhost:8080/api/vehicle/2
+....
+
+=== UC_003 Delete sedan by ID
+As an user I want to delete a sedan this time via its ID.
+
+WARNING: Make sure the ID really exists!
+
+Correspoding curl statement would be:
+....
+curl -X DELETE "localhost:8080/api/sedan/6" -H "accept: application/json"
+....
+
+Do the same with any REST-Tool and a DELETE:
+....
+localhost:8080/api/sedan/6
+....
+
+
+== 05. Testing the database
 
 TIP: Source: https://assertj.github.io/doc
 
