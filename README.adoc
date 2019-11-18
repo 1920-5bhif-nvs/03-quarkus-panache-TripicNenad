@@ -1,6 +1,6 @@
-= Übung 03 - Quarkus-Panache - Nenad Tripi&#x0107;
+= Übung 03 - Quarkus-Panache/Hibernate - Nenad Tripi&#x0107;
 :toc:
-:toc-title: Contents
+:toc-title: Table of contents
 :toclevels: 3
 
 ifdef::env-github[]
@@ -76,9 +76,11 @@ Implementation of link:quarkus-panache-vehicleShop\src\main\java\at\htl\vehicleS
 
 TIP: The EntityManager is not necessary anymore. <PanacheEntity-Object>.persist();
 ....
-Product innocent_greensmoothie = new Product("Green Smoothie", 2.26, LocalDate.parse("19.12.2018",formatter), "Innocent",10,store);
-innocent_greensmoothie.persist();
+Sedan sedan = new Sedan("BMW", i + "D", 5, i);
+sedan.persist();
 ....
+
+TIP: link:https://quarkus.io/guides/hibernate-orm-panache#transactions[@Transactional]
 
 ==== Panache Entities
 TIP: Source: https://quarkus.io/guides/hibernate-orm-panache
@@ -146,5 +148,167 @@ IMPORTANT: According to this link:https://stackoverflow.com/a/23083900[StackOver
 ....
 
 ==== CLD and ERD of the Panache-project
-image::images/CLD.png[ERD]
+image::images/CLD.png[CLD]
 image::images/ERD.png[ERD]
+
+
+== 02. Hibernate
+=== Preparation
+==== Quarkus
+* Create Quarkus-Project with:
+....
+  $mvn io.quarkus:quarkus-maven-plugin:0.11.0:create \
+        -DprojectGroupId=at.htl.vehicleShop \
+        -DprojectArtifactId=quarkus-hibernate-vehicleShop \
+        -DclassName="at.htl.vehicleShop.vehicleShopResource" \
+        -Dpath="vehicle"
+....
+
+* Adding the necessary dependencies 
+link:\quarkus-hibernate-vehicleShop\pom.xml[pom.xml]
+....
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-hibernate-orm</artifactId>
+</dependency>
+<dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
+</dependency>
+....
+
+==== Database (same as 01. Panache)
+* Create/Start of postgres database:
+....
+docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=passme -d postgres
+....
+
+* For persistence edit the link:quarkus-hibernate-vehicleShop\src\main\resources\META-INF\microprofile-config.properties[configurationsfile].
+
+* Datasource in the IDE
+
+=== Implementation of the microproject
+TIP: Source: https://quarkus.io/guides/hibernate-orm
+
+==== InitBean
+Implementation of link:quarkus-hibernate-vehicleShop\src\main\java\at\htl\vehicleShop\business\InitBean.java[InitBean.java]
+
+IMPORTANT: Here you must use an EntityManager <EntityManager>.persist(<Entity>); And must include link:https://quarkus.io/guides/hibernate-orm[@Transactional]
+
+....
+@ApplicationScoped
+public class InitBean {
+
+    @Inject
+    EntityManager em;
+
+    @Transactional
+    void init(@Observes StartupEvent ev)
+    {
+        System.err.println("* Init started! *");
+        //Creation of objects to persist
+    }
+}
+....
+
+==== Entities
+===== Example Entity "Vehicle":
+CAUTION: You have to implement a field for the ID and use getter and setter unlike in panache.
+....
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
+@NamedQuery(name = "Vehicle.findAll", query = "select v from Vehicle v")
+public abstract class Vehicle {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    private String manufacturer;
+    private String modelName;
+
+    //region Constructor
+    public Vehicle() {
+    }
+
+    public Vehicle(String manufacturer, String modelName) {
+        this.manufacturer = manufacturer;
+        this.modelName = modelName;
+    }
+
+    //endregion
+    //region Getter and Setter
+....
+
+==== SQL - Query with hibernate
+===== Get all sedans
+* NamedQuery in the Class:
+....
+@Entity
+@NamedQuery(name = "Sedan.findAll", query = "select s from Sedan s")
+public class Sedan extends Vehicle {
+....
+* Use query:
+....
+System.err.println("------Print SEDANS------");
+        TypedQuery<Sedan> sedanQuery =
+                em.createNamedQuery("Sedan.findAll", Sedan.class);
+        List<Sedan> sedanQueryResultList = sedanQuery.getResultList();
+        sedanQueryResultList.forEach(sedan -> System.err.println(sedan.toString()));
+....
+* Prints:
+....
+------Print SEDANS------
+BMW 120D, max. Passagiere:5, PS:120
+BMW 220D, max. Passagiere:5, PS:220
+BMW 320D, max. Passagiere:5, PS:320
+BMW 420D, max. Passagiere:5, PS:420
+BMW 520D, max. Passagiere:5, PS:520
+BMW 620D, max. Passagiere:5, PS:620
+BMW 720D, max. Passagiere:5, PS:720
+BMW 820D, max. Passagiere:5, PS:820
+....
+IMPORTANT: This output shows that the inheritance is working as expected. The manufacturer and model are fields from the baseclass vehicle. *No JOIN is needed*.
+
+=== Starting the project (in the same directory)
+....
+%mvn% compile quarkus:dev
+....
+
+==== CLD and ERD of Hibernate-project
+The same as in panache above.
+
+== 03. Conclusion: Panache vs. Hibernate
+The projects I made are rather small and not really much to process or anything. That is why I am only going to compare the given technologies based on their simplicity.
+
+==== Panache Pros:
+
+* No ID field is needed - does it for you in the background
+* SQL Statements are much easier because you do not need an EM anymore
+** e.g.: <Entity>.findAll() and <Entity>.find()
+* EntityManager is not needed anymore
+* My opinion: it is easier to understand
+
+==== Panache Cons:
+* Little to none documentation
+* Maybe not so far like hibernate
+* Easier to learn
+* When you have troubles you can not really look up on the internet because it is not commonly used
+
+
+== 04. Testing the database
+
+TIP: Source: https://assertj.github.io/doc
+
+=== Preperation
+==== Maven
+* Adding the needed dependencies link:\quarkus-panache-vehicleShop\pom.xml[pom.xml]
+....
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-core</artifactId>
+  <!-- use 2.9.1 for Java 7 projects -->
+  <version>3.14.0</version>
+  <scope>test</scope>
+</dependency>
+....
