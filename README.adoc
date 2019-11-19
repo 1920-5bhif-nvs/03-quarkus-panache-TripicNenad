@@ -13,6 +13,8 @@ endif::[]
 
 :source-highlighter: coderay
 
+== 00. Project description
+With this miniproject I am implementing a simple vehicleshop. This vehicleshop contains several vehicles of different types. The Vehicle is the baseclasse and all other type of cars inherit from it. This project is rather small and not very enormous but should be considerd as a valid project just to implement the mandatory things and gain some experience.
 
 == 01. Panache
 === Preperation
