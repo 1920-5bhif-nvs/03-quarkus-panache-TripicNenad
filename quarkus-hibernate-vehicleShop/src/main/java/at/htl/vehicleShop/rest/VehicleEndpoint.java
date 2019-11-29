@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("vehicle")
+@Path("/vehicle")
 public class VehicleEndpoint {
     @Inject
     EntityManager em;
