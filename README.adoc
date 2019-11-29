@@ -21,7 +21,7 @@ With this miniproject I am implementing a simple vehicleshop. This vehicleshop c
 ==== Quarkus
 * Create the quarkus project:
 ....
- $mvn io.quarkus:quarkus-maven-plugin:0.11.0:create \
+ $mvn io.quarkus:quarkus-maven-plugin:1.0.1.Final:create\
         -DprojectGroupId=at.htl.vehicleShop \
         -DprojectArtifactId=quarkus-panache-vehicleShop \
         -DclassName="at.htl.vehicleShop.vehicleShopResource" \
@@ -367,3 +367,26 @@ TIP: Source: https://assertj.github.io/doc
   <scope>test</scope>
 </dependency>
 ....
+
+== 06. OpenAPI & Swagger
+This creates a description of all the endpoints automatically.
+
+* Adding the needed dependency link:\quarkus-hibernate-vehicleShop\pom.xml[pom.xml]
+
+....
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-smallrye-openapi</artifactId>
+</dependency>
+....
+
+
+* Add this to the link:quarkus-hibernate-vehicleShop\src\main\resources\META-INF\microprofile-config.properties[configurationfile].
+
+....
+#OpenApi & Swagger
+#OpenAPI: http://localhost:8080/openapi
+#Swagger-UI: http://localhost:8080/swagger-ui/#/
+quarkus.swagger-ui.always-include=true
+....
+
