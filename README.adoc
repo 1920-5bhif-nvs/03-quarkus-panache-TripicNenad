@@ -14,7 +14,22 @@ endif::[]
 :source-highlighter: coderay
 
 == 00. Project description
-With this miniproject I am implementing a simple vehicleshop. This vehicleshop contains several vehicles of different types. The Vehicle is the baseclasse and all other type of cars inherit from it. This project is rather small and not very enormous but should be considerd as a valid project just to implement the mandatory things and gain some experience.
+This miniproject implements a simple vehicleshop. This vehicleshop contains several vehicles of different types. The Vehicle is the baseclasse and all other type of cars inherit from it. This project is rather small and not very enormous but should be considerd as a valid project just to implement the mandatory things and gain some experience.
+
+=== How to run the project
+
+* Type in following in order to start the postgres database:
+....
+docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=passme -d postgres
+....
+
+
+* Type in following in the IDE terminal to start it in the Dev-Mode:
+....
+%mvn% compile quarkus:dev
+....
+
+* However if you want it to run in production you only have to click on the link:\quarkus-hibernate-vehicleshop\startup.sh[startup.sh]. This script creates two docker containters, one for the Postgres and one for the quarkus-application itself.
 
 == 01. Panache
 === Preperation
